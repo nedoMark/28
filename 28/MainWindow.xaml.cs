@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,11 +39,8 @@ namespace _28
         }
         private void LoadFiles()
         {
-            // Наприклад, заповнення fileItems
             fileItems.Add(new FileItem { Name = "File1.txt", Type = "File", Size = 1024 });
             fileItems.Add(new FileItem { Name = "Folder1", Type = "Folder", Size = 0 });
-
-            // Додай інші файли чи папки
         }
         private void LoadDrives()
         {
@@ -80,7 +77,6 @@ namespace _28
 
         private void SortItems(string columnHeader)
         {
-            // Якщо це той самий стовпець, змінюємо напрямок сортування
             if (_lastSortedColumn == columnHeader)
             {
                 _currentSortDirection = _currentSortDirection == SortDirection.Ascending
@@ -89,12 +85,10 @@ namespace _28
             }
             else
             {
-                // Якщо новий стовпець, сортуємо за зростанням
                 _currentSortDirection = SortDirection.Ascending;
                 _lastSortedColumn = columnHeader;
             }
 
-            // Виконуємо сортування
             IOrderedEnumerable<FileItem> sortedItems = null;
 
             switch (columnHeader)
@@ -129,36 +123,28 @@ namespace _28
 
         private void TreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Перехоплюємо подію для відкриття контекстного меню
             e.Handled = true;
 
             var item = VisualUpwardSearch<TreeViewItem>((DependencyObject)e.OriginalSource);
             if (item != null)
             {
                 item.IsSelected = true;
-                // Відображаємо контекстне меню
                 item.ContextMenu = (ContextMenu)Resources["ItemContextMenu"];
                 item.ContextMenu.IsOpen = true;
             }
         }
-
-        // Обробка події для ListView
         private void FileListView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Перехоплюємо подію для відкриття контекстного меню
             e.Handled = true;
 
             var item = VisualUpwardSearch<ListViewItem>((DependencyObject)e.OriginalSource);
             if (item != null)
             {
                 item.IsSelected = true;
-                // Відображаємо контекстне меню
                 item.ContextMenu = (ContextMenu)Resources["ItemContextMenu"];
                 item.ContextMenu.IsOpen = true;
             }
         }
-
-        // Визначення допоміжного методу для пошуку елементів
         static T VisualUpwardSearch<T>(DependencyObject source) where T : DependencyObject
         {
             while (source != null && !(source is T))
@@ -177,9 +163,6 @@ namespace _28
                 }
             }
         }
-
-
-
         private void NavigateTo(string path, bool addToHistory = true)
         {
             if (addToHistory && currentPath != null && Directory.Exists(currentPath))
